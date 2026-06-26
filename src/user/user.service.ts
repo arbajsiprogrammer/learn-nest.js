@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException} from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
 
 // export interface IUser {
 //     id: string,
@@ -119,15 +120,15 @@ export class UserService {
         return user;
     }
 
-    createUser(data){
-        const user = {id:crypto.randomUUID().toString(), ...data};
+    createUser(CreateUserDto:CreateUserDto){
+        // const user = {id:crypto.randomUUID().toString(), ...CreateUserDto};
 
-        this.users.push(user);
+        // this.users.push(user);
 
         return this.users;
     }
 
-    updateUser(id:string, data){
+    updateUser(id:string, CreateUserDto:CreateUserDto){
         this.getUser(id);
 
         this.users = this.users.map((u)=> {
@@ -135,7 +136,8 @@ export class UserService {
             if(u.id != id){
                 return u;
             }else {
-                return {id, ...data};
+                return {//id,
+                 ...CreateUserDto};
             }
         });
 
