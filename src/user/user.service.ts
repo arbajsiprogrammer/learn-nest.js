@@ -1,5 +1,8 @@
 import { Injectable, NotFoundException} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from './schemas/user.schema';
+import { Model } from 'mongoose';
 
 // export interface IUser {
 //     id: string,
@@ -20,6 +23,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
+  
+  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
     
     private users= [
   {
@@ -120,12 +125,14 @@ export class UserService {
         return user;
     }
 
-    createUser(CreateUserDto:CreateUserDto){
+    async createUser(CreateUserDto:CreateUserDto):Promise<User>{
         // const user = {id:crypto.randomUUID().toString(), ...CreateUserDto};
 
         // this.users.push(user);
 
-        return this.users;
+        const createdUser = new this.userModel(CreateUserDto);
+
+        return createdUser.save();
     }
 
     updateUser(id:string, CreateUserDto:CreateUserDto){
