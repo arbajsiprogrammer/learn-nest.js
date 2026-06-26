@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import {  IUser, UserService } from './user.service';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
@@ -12,7 +12,7 @@ export class UserController {
 
     // get all users 
     @Get()
-    getUsers():IUser[]{
+    getUsers(){
         return this.UserService.getUsers();
     }
 
@@ -24,19 +24,19 @@ export class UserController {
 
     // create new user
     @Post()
-    createUser(@Body()data):IUser[]{
+    createUser(@Body()data){
         return this.UserService.createUser( data);
     }
 
     // edit user
     @Put(":id")
-    updateUser(@Param("id") userId:string, @Body()data):IUser[]{
+    updateUser(@Param("id") userId:string, @Body()data){
         return this.UserService.updateUser(userId, data);
     }
 
      // delete user
     @Delete(":id")
-    deleteUser(@Param("id") userId:string):IUser[]{
+    deleteUser(@Param("id") userId:string){
         return this.UserService.deleteUser(userId);
     }
     

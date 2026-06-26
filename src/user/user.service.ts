@@ -1,26 +1,26 @@
-import { Injectable, NotFoundException, Param } from '@nestjs/common';
+import { Injectable, NotFoundException} from '@nestjs/common';
 
-export interface IUser {
-    id: string,
-    name: string,
-    email: string,
-    role: "student" | "instructor" | "admin",
-    course: string | null,
-    enrolled: boolean,
-}
+// export interface IUser {
+//     id: string,
+//     name: string,
+//     email: string,
+//     role: "student" | "instructor" | "admin",
+//     course: string | null,
+//     enrolled: boolean,
+// }
 
-export interface IData {
-    name: string,
-    email: string,
-    role: "student" | "instructor" | "admin",
-    course: string | null,
-    enrolled: boolean,
-}
+// export interface IData {
+//     name: string,
+//     email: string,
+//     role: "student" | "instructor" | "admin",
+//     course: string | null,
+//     enrolled: boolean,
+// }
 
 @Injectable()
 export class UserService {
     
-    private users:IUser[] = [
+    private users= [
   {
     id: "1",
     name: "Arjun Sharma",
@@ -104,12 +104,12 @@ export class UserService {
 ];
 
     // get all users
-    getUsers():IUser[]{
+    getUsers(){
         return this.users;
     }
 
     // get single user
-    getUser(id:string):IUser{
+    getUser(id:string){
         const user =  this.users.find((u)=> u.id == id);
 
         if(!user){
@@ -119,15 +119,15 @@ export class UserService {
         return user;
     }
 
-    createUser(data:IData):IUser[]{
-        const user:IUser = {id:crypto.randomUUID().toString(), ...data};
+    createUser(data){
+        const user = {id:crypto.randomUUID().toString(), ...data};
 
         this.users.push(user);
 
         return this.users;
     }
 
-    updateUser(id:string, data: IData):IUser[]{
+    updateUser(id:string, data){
         this.getUser(id);
 
         this.users = this.users.map((u)=> {
@@ -142,7 +142,7 @@ export class UserService {
         return this.users;
     }
 
-    deleteUser(id:string):IUser[]{
+    deleteUser(id:string){
         this.getUser(id);
 
         this.users = this.users.filter((u)=> u.id != id);
