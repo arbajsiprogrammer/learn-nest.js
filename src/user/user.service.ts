@@ -110,52 +110,51 @@ export class UserService {
 ];
 
     // get all users
-    getUsers(){
-        return this.users;
-    }
+    // getUsers(){
+    //     return this.users;
+    // }
 
-    // get single user
-    getUser(id:string){
-        const user =  this.users.find((u)=> u.id == id);
+    // // get single user
+    // getUser(id:string){
+    //     const user =  this.users.find((u)=> u.id == id);
 
-        if(!user){
-            throw new NotFoundException(`user with id : ${id} not found...`)
-        }
+    //     if(!user){
+    //         throw new NotFoundException(`user with id : ${id} not found...`)
+    //     }
         
-        return user;
-    }
+    //     return user;
+    // }
 
-    async createUser(CreateUserDto:CreateUserDto):Promise<User>{
-        // const user = {id:crypto.randomUUID().toString(), ...CreateUserDto};
+    async createUser(createUserDto:CreateUserDto):Promise<User>{
 
-        // this.users.push(user);
-
-        const createdUser = new this.userModel(CreateUserDto);
+      console.log("createUserDto inside User service : ", createUserDto);
+      
+        const createdUser = new this.userModel(createUserDto);
 
         return createdUser.save();
     }
 
-    updateUser(id:string, CreateUserDto:CreateUserDto){
-        this.getUser(id);
+    // updateUser(id:string, CreateUserDto:CreateUserDto){
+    //     this.getUser(id);
 
-        this.users = this.users.map((u)=> {
+    //     this.users = this.users.map((u)=> {
 
-            if(u.id != id){
-                return u;
-            }else {
-                return {//id,
-                 ...CreateUserDto};
-            }
-        });
+    //         if(u.id != id){
+    //             return u;
+    //         }else {
+    //             return {//id,
+    //              ...CreateUserDto};
+    //         }
+    //     });
 
-        return this.users;
-    }
+    //     return this.users;
+    // }
 
-    deleteUser(id:string){
-        this.getUser(id);
+    // deleteUser(id:string){
+    //     this.getUser(id);
 
-        this.users = this.users.filter((u)=> u.id != id);
+    //     this.users = this.users.filter((u)=> u.id != id);
 
-        return this.users;
-    }
+    //     return this.users;
+    // }
 }

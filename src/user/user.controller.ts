@@ -11,16 +11,16 @@ export class UserController {
     }
 
     // get all users 
-    @Get()
-    getUsers(){
-        return this.UserService.getUsers();
-    }
+    // @Get()
+    // getUsers(){
+    //     return this.UserService.getUsers();
+    // }
 
     // get one user 
-    @Get(":id")
-    getUser(@Param("id")userId:string){
-        return this.UserService.getUser(userId);
-    }
+    // @Get(":id")
+    // getUser(@Param("id")userId:string){
+    //     return this.UserService.getUser(userId);
+    // }
 
     // create new user
     @Post()
@@ -29,15 +29,15 @@ export class UserController {
     }
 
     // edit user
-    @Put(":id")
-    updateUser(@Param("id") userId:string, @Body()data){
-        return this.UserService.updateUser(userId, data);
-    }
+    // @Put(":id")
+    // updateUser(@Param("id") userId:string, @Body()data){
+    //     return this.UserService.updateUser(userId, data);
+    // }
 
-     // delete user
-    @Delete(":id")
-    deleteUser(@Param("id") userId:string){
-        return this.UserService.deleteUser(userId);
-    }
+    //  // delete user
+    // @Delete(":id")
+    // deleteUser(@Param("id") userId:string){
+    //     return this.UserService.deleteUser(userId);
+    // }
     
 }

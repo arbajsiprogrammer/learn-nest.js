@@ -1,8 +1,9 @@
 export class ApiResponse {
+
+    success : boolean;
     statusCode:number;
     message:string;
     data:[];
-    success : boolean;
     
     constructor(statusCode:number, message:string = "successful", data:any){
         this.statusCode = statusCode;

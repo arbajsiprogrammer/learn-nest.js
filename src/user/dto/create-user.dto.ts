@@ -7,14 +7,21 @@ enum ROLE {
 }
 
 export class CreateUserDto {
+    
     @IsString()
-    id!: string;
+    fname: string;
 
     @IsString()
-    name!: string;
+    lname!: string;
+    
+    @IsString()
+    password!: string;
 
     @IsEmail()
     email!: string;
+
+    @IsString()
+    phone!: string;
 
     @IsEnum(ROLE)
     role!: ROLE;
@@ -24,4 +31,6 @@ export class CreateUserDto {
 
     @IsBoolean()
     enrolled!: boolean;
-}
+
+
+}   
