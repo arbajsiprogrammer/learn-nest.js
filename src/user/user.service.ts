@@ -1,9 +1,12 @@
-import { ConflictException, Injectable, InternalServerErrorException, NotFoundException} from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { ConflictException, ForbiddenException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException} from '@nestjs/common';
+import { RegisterUserDto } from './dto/registerUser.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import { DUPLICATE_KEY_CODE } from 'src/user/constants/user.constants';
+import { LoginUserDto } from './dto/loginUser.dto';
+import bcrypt from "bcrypt";
+import { JwtModule } from '@nestjs/jwt';
 
 // export interface IUser {
 //     id: string,
@@ -111,9 +114,28 @@ export class UserService {
 ];
 
     // get all users
-    // getUsers(){
-    //     return this.users;
-    // }
+    async getUser(loginUserDto:LoginUserDto){
+      
+        const email = loginUserDto.email;
+
+
+        const password = loginUserDto.password as string;
+
+        const user = await this.userModel.findOne({email});
+
+        if(!user){
+          throw new NotFoundException(`User with email ${email} not found`);
+        }
+
+        const isMatched = await bcrypt.hash(password, user.password);
+
+        if(!isMatched){
+          throw new UnauthorizedException("Password not matched");
+        }
+
+        return user;
+
+    }
 
     // // get single user
     // getUser(id:string){
@@ -126,12 +148,12 @@ export class UserService {
     //     return user;
     // }
 
-    async createUser(createUserDto:CreateUserDto){
+    async createUser(registerUserDto:RegisterUserDto){
 
       try {
-        console.log("createUserDto inside User service : ", createUserDto);
+        console.log("createUserDto inside User service : ", registerUserDto);
       
-        const createdUser = new this.userModel(createUserDto);
+        const createdUser = new this.userModel(registerUserDto);
 
         const user =  await createdUser.save();
         return user;
@@ -144,7 +166,6 @@ export class UserService {
         }
 
         throw new InternalServerErrorException(error);
-
         
       }
     }

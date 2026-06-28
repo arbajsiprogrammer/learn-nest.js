@@ -1,23 +1,24 @@
-import { IsBoolean, IsEmail, IsEnum, IsString} from "class-validator";
+import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsString} from "class-validator";
+import { ROLE } from "../constants/user.constants";
 
-enum ROLE {
-    STUDENT = "student",
-    INSTRUCTOR = "instructor",
-    ADMIN = "admin"
-}
 
-export class CreateUserDto {
+
+export class RegisterUserDto {
     
     @IsString()
+    @IsNotEmpty()
     fname!: string;
 
     @IsString()
+    @IsNotEmpty()
     lname!: string;
     
     @IsString()
+    @IsNotEmpty()
     password!: string;
 
     @IsEmail()
+    @IsNotEmpty()
     email!: string;
 
     @IsString()
