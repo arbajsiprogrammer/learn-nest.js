@@ -55,4 +55,11 @@ export class AuthService {
 
     }
 
+    // get user profile 
+    async profile (id:string){
+      
+      const user = await this.UserService.getUserById(id);
+
+      return user;
+    }
 }

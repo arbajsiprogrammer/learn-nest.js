@@ -1,29 +1,14 @@
+import { LoginUserDto } from 'src/user/dto/loginUser.dto';
 import { ConflictException, ForbiddenException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException} from '@nestjs/common';
 import { RegisterUserDto } from './dto/registerUser.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import { DUPLICATE_KEY_CODE } from 'src/user/constants/user.constants';
-import { LoginUserDto } from './dto/loginUser.dto';
 import bcrypt from "bcrypt";
 import { JwtModule } from '@nestjs/jwt';
 
-// export interface IUser {
-//     id: string,
-//     name: string,
-//     email: string,
-//     role: "student" | "instructor" | "admin",
-//     course: string | null,
-//     enrolled: boolean,
-// }
 
-// export interface IData {
-//     name: string,
-//     email: string,
-//     role: "student" | "instructor" | "admin",
-//     course: string | null,
-//     enrolled: boolean,
-// }
 
 @Injectable()
 export class UserService {
@@ -52,7 +37,8 @@ export class UserService {
         
       }
     }
-    // get all users
+
+    // get  user
     async getUser(loginUserDto:LoginUserDto){
       
         const email = loginUserDto.email;
@@ -76,6 +62,19 @@ export class UserService {
 
     }
 
+    // get user by Id
+    async getUserById(id:string){
+      
+        console.log(id, " ID inside getUserById");
+
+        const user = await this.userModel.findById(id);
+
+        if(!user){
+          throw new NotFoundException(`User with id ${id} not found`);
+        }
+
+        return user;
+    }
     
 
     

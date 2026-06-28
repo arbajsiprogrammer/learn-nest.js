@@ -1,8 +1,9 @@
 import { AuthService } from './auth.service';
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post, Request, UseGuards} from '@nestjs/common';
 import { LoginUserDto } from 'src/user/dto/loginUser.dto';
 import { RegisterUserDto } from 'src/user/dto/registerUser.dto';
 import { ApiResponse } from 'src/util/ApiResponse.util';
+import { AuthGuard } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -26,8 +27,22 @@ export class AuthController {
     async logIn(@Body()loginUserDto:LoginUserDto):Promise<ApiResponse>{
         
         console.log("loginUserDto inside LogIn ",loginUserDto);
+
         const token = await this.AuthService.logIn(loginUserDto);
 
         return new ApiResponse(201, "LogIn successful", {access_token : token});
+    }
+
+    // Profile Flow
+    @UseGuards(AuthGuard)
+    @Get("/profile")
+    @HttpCode(200)
+    async profile(@Request() req):Promise<ApiResponse>{
+        
+        const userId = req.user.sub;
+
+        const user = await this.AuthService.profile(userId);
+
+        return new ApiResponse(201, "Profile Data", user);
     }
 }
