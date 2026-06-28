@@ -4,11 +4,12 @@ import { UserService } from './../user/user.service';
 import {  Injectable} from '@nestjs/common';
 
 import bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
 
-    constructor(private readonly UserService : UserService){}
+    constructor(private readonly UserService : UserService, private readonly jwtService : JwtService){}
     
     // steps :=>
     // 1. check if email already exists 
@@ -25,7 +26,15 @@ export class AuthService {
 
         createUserDto.password = hash;
 
-        const user = this.UserService.createUser(createUserDto);
-        return user;
+        const createdUser = await this.UserService.createUser(createUserDto);
+
+        console.log("createdUser inside the register method : ", createdUser)
+
+        const payload = {sub : createdUser._id}
+
+        const token = await this.jwtService.signAsync(payload);
+        
+        return createdUser;
     }
+
 }

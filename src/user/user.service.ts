@@ -1,8 +1,9 @@
-import { Injectable, NotFoundException} from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
+import { DUPLICATE_KEY_CODE } from 'src/user/constants/user.constants';
 
 // export interface IUser {
 //     id: string,
@@ -125,13 +126,27 @@ export class UserService {
     //     return user;
     // }
 
-    async createUser(createUserDto:CreateUserDto):Promise<User>{
+    async createUser(createUserDto:CreateUserDto){
 
-      console.log("createUserDto inside User service : ", createUserDto);
+      try {
+        console.log("createUserDto inside User service : ", createUserDto);
       
         const createdUser = new this.userModel(createUserDto);
 
-        return createdUser.save();
+        const user =  await createdUser.save();
+        return user;
+      } catch (error:unknown) {
+        console.log("************************error******************************* : ", error)
+        const e = error as {code?:number, errmsg?:string};
+
+        if(e.code == DUPLICATE_KEY_CODE){
+          throw new ConflictException(e.errmsg || "Duplicate Key error");
+        }
+
+        throw new InternalServerErrorException(error);
+
+        
+      }
     }
 
     // updateUser(id:string, CreateUserDto:CreateUserDto){

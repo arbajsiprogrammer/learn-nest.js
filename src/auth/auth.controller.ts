@@ -11,9 +11,10 @@ export class AuthController {
     @Post("/register")
     @HttpCode(201)
     async createUser(@Body() createUserDto : CreateUserDto):Promise<ApiResponse>{
-        const response = await this.AuthService.register(createUserDto);
-        console.log("response : ",response);
+
+        const createdUser = await this.AuthService.register(createUserDto);
+        console.log("response : ",createdUser);
         
-        return new ApiResponse(201, "user created", response);
+        return new ApiResponse(201, "user created", createdUser);
     }
 }

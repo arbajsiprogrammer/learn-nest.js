@@ -9,7 +9,7 @@ enum ROLE {
 export class CreateUserDto {
     
     @IsString()
-    fname: string;
+    fname!: string;
 
     @IsString()
     lname!: string;
