@@ -12,8 +12,8 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 @Controller('course')
 export class CourseController {
   constructor( private readonly courseService: CourseService) {}
+
   @Roles(ROLE.ADMIN)
-  @UseGuards(AuthGuard, RolesGuard)
   @Post()
   async create(@Body() createCourseDto: CreateCourseDto) {
     const createdCourse = await this.courseService.create(createCourseDto);
@@ -39,7 +39,6 @@ export class CourseController {
   }
 
   @Roles(ROLE.ADMIN)
-  @UseGuards(AuthGuard, RolesGuard)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
     // check if Id is valid or not 
@@ -51,7 +50,6 @@ export class CourseController {
   }
 
   @Roles(ROLE.ADMIN)
-  @UseGuards(AuthGuard, RolesGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     // check if Id is valid or not 

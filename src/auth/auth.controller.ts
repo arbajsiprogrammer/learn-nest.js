@@ -4,6 +4,7 @@ import { LoginUserDto } from 'src/user/dto/loginUser.dto';
 import { RegisterUserDto } from 'src/user/dto/registerUser.dto';
 import { ApiResponse } from 'src/util/ApiResponse.util';
 import { AuthGuard } from './guards/auth.guard';
+import { Public } from './decorators/roles.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -11,6 +12,7 @@ export class AuthController {
     constructor(private readonly AuthService:AuthService){}
 
     // Register Flow
+    @Public()
     @Post("/register")
     @HttpCode(201)
     async createUser(@Body() registerUserDto : RegisterUserDto):Promise<ApiResponse>{
@@ -22,6 +24,7 @@ export class AuthController {
     }
 
     // logIn Flow
+    @Public()
     @Post("/login")
     @HttpCode(200)
     async logIn(@Body()loginUserDto:LoginUserDto):Promise<ApiResponse>{
@@ -34,7 +37,7 @@ export class AuthController {
     }
 
     // Profile Flow
-    @UseGuards(AuthGuard)
+    // @UseGuards(AuthGuard)
     @Get("/profile")
     @HttpCode(200)
     async profile(@Request() req):Promise<ApiResponse>{
@@ -43,6 +46,6 @@ export class AuthController {
 
         const user = await this.AuthService.profile(userId);
 
-        return new ApiResponse(201, "Profile Data", user);
+        return new ApiResponse(200, "Profile Data", user);
     }
 }

@@ -2,7 +2,7 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLE } from 'src/common/enums/roles.enum';
-import { ROLES_KEY } from '../decorators/roles.decorator';
+import { PUBLIC_KEY, ROLES_KEY } from '../decorators/roles.decorator';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -22,7 +22,7 @@ export class RolesGuard implements CanActivate {
     }
 
     const { user } = context.switchToHttp().getRequest();
-
+    console.log(user , " inside RolesGuard");
     if(!user){
         throw new UnauthorizedException("you are not allowed to make request");
     }

@@ -1,4 +1,5 @@
-import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsString} from "class-validator";
+import { IsBoolean, IsEmail, IsEnum, IsMongoId, IsNotEmpty, IsOptional, IsString} from "class-validator";
+import mongoose from "mongoose";
 import { ROLE } from "src/common/enums/roles.enum";
 
 
@@ -28,8 +29,9 @@ export class RegisterUserDto {
     @IsEnum(ROLE)
     role!: ROLE;
     
-    @IsString() 
-    course!: string | null;
+    @IsOptional()
+    @IsMongoId()    
+    course!: mongoose.Types.ObjectId | null;
 
     @IsBoolean()
     enrolled!: boolean;

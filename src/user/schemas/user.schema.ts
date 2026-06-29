@@ -28,8 +28,8 @@ export class User {
   @Prop({type: String, enum:UserRoles, default:UserRoles.STUDENT})
   role! : UserRoles;
 
-  @Prop({required:true, trim:true, type:mongoose.Schema.Types.ObjectId, ref:User.name})
-  course! : mongoose.Types.ObjectId;
+  @Prop({ trim:true, type:mongoose.Schema.Types.ObjectId, ref:User.name})
+  course! : mongoose.Types.ObjectId | null;
 
   @Prop({default:null})
   deletedAt! : Date
