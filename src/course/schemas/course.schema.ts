@@ -12,7 +12,7 @@ export type CourseDocument = HydratedDocument<Course>;
 
 export class Course {
 
-  @Prop({required: true, trim:true})
+  @Prop({required: true, trim:true, unique:true})
   title! : string;
 
   @Prop({required: true, trim:true})

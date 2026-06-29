@@ -2,33 +2,47 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
+import { ApiResponse } from 'src/util/ApiResponse.util';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Controller('course')
 export class CourseController {
-  constructor(private readonly courseService: CourseService) {}
+  constructor( private readonly courseService: CourseService) {}
 
   @Post()
-  create(@Body() createCourseDto: CreateCourseDto) {
-    return this.courseService.create(createCourseDto);
+  async create(@Body() createCourseDto: CreateCourseDto) {
+    const createdCourse = await this.courseService.create(createCourseDto);
+
+    return new ApiResponse(201, "course created", createdCourse);
   }
 
   @Get()
-  findAll() {
-    return this.courseService.findAll();
+  async findAll() {
+    const courses = await this.courseService.findAll({});
+
+    return new ApiResponse(200, "courses data fetched", courses)
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.courseService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const course =await this.courseService.findOne(id);
+
+    return new ApiResponse(200, "courses data fetched", course)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
-    return this.courseService.update(+id, updateCourseDto);
+  async update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
+    
+    const course = await this.courseService.update(id, updateCourseDto);
+
+    return new ApiResponse(200, "courses data fetched", course)
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.courseService.remove(+id);
+  async remove(@Param('id') id: string) {
+
+    const course = await this.courseService.remove(id);
+
+    return new ApiResponse(200, "courses data fetched", course)
   }
 }
