@@ -1,5 +1,6 @@
 import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsString} from "class-validator";
-import { ROLE } from "../constants/user.constants";
+import { ROLE } from "src/common/enums/roles.enum";
+
 
 
 

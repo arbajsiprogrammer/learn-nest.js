@@ -1,12 +1,12 @@
 import { LoginUserDto } from 'src/user/dto/loginUser.dto';
-import { ConflictException, ForbiddenException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException} from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException} from '@nestjs/common';
 import { RegisterUserDto } from './dto/registerUser.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
-import { DUPLICATE_KEY_CODE } from 'src/user/constants/user.constants';
+
 import bcrypt from "bcrypt";
-import { JwtModule } from '@nestjs/jwt';
+import { DUPLICATE_KEY_CODE } from 'src/common/enums/roles.enum';
 
 
 

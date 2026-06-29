@@ -31,7 +31,7 @@ export class AuthService {
 
         console.log("createdUser inside the register method : ", createdUser)
 
-        const payload = {sub : createdUser._id}
+        const payload = {sub : {_id : createdUser._id, role : createdUser.role}}
 
         const token = await this.jwtService.signAsync(payload);
 
@@ -47,12 +47,11 @@ export class AuthService {
 
         const user = await this.UserService.getUser(loginUserDto);
         
-        const payload = {sub : user._id}
+        const payload = {sub :  user._id, role : user.role}
 
         const token = await this.jwtService.signAsync(payload);
 
         return token;
-
     }
 
     // get user profile 

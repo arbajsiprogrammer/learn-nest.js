@@ -3,7 +3,7 @@ import { Body, Controller, Get, HttpCode, Post, Request, UseGuards} from '@nestj
 import { LoginUserDto } from 'src/user/dto/loginUser.dto';
 import { RegisterUserDto } from 'src/user/dto/registerUser.dto';
 import { ApiResponse } from 'src/util/ApiResponse.util';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 @Controller('auth')
 export class AuthController {

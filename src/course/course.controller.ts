@@ -1,14 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, UseGuards } from '@nestjs/common';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { ApiResponse } from 'src/util/ApiResponse.util';
 import { isValidObjectId } from 'mongoose';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { ROLE } from 'src/common/enums/roles.enum';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Controller('course')
 export class CourseController {
   constructor( private readonly courseService: CourseService) {}
-
+  @Roles(ROLE.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @Post()
   async create(@Body() createCourseDto: CreateCourseDto) {
     const createdCourse = await this.courseService.create(createCourseDto);
@@ -33,6 +38,8 @@ export class CourseController {
     return new ApiResponse(200, "course fetched", course)
   }
 
+  @Roles(ROLE.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
     // check if Id is valid or not 
@@ -43,6 +50,8 @@ export class CourseController {
     return new ApiResponse(200, "course updated", course)
   }
 
+  @Roles(ROLE.ADMIN)
+  @UseGuards(AuthGuard, RolesGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     // check if Id is valid or not 
