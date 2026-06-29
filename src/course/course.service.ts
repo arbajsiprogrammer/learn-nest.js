@@ -5,7 +5,7 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 @Injectable()
 export class CourseService {
   create(createCourseDto: CreateCourseDto) {
-    return 'This action adds a new course';
+    
   }
 
   findAll() {
