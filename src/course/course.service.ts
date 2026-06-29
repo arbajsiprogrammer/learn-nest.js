@@ -47,7 +47,7 @@ export class CourseService {
   }
 
   async update(id: string, updateCourseDto: UpdateCourseDto) {
-    const course = await this.courseModel.findByIdAndUpdate(id, updateCourseDto);
+    const course = await this.courseModel.findByIdAndUpdate(id, updateCourseDto, {new : true});
 
     if(!course){
       throw new NotFoundException(`Course with id ${id} not found `)

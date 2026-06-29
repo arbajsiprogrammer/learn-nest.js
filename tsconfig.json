@@ -22,6 +22,6 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     // removing warnings of deprecated dependencies 
-    "ignoreDeprecations": "6.0"
+    // "ignoreDeprecations": "6.0"
   }
 }

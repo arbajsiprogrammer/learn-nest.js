@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { ApiResponse } from 'src/util/ApiResponse.util';
-import { InjectModel } from '@nestjs/mongoose';
+import { isValidObjectId } from 'mongoose';
 
 @Controller('course')
 export class CourseController {
@@ -20,29 +20,44 @@ export class CourseController {
   async findAll() {
     const courses = await this.courseService.findAll({});
 
-    return new ApiResponse(200, "courses data fetched", courses)
+    return new ApiResponse(200, "courses fetched", courses)
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
+    // check if Id is valid or not 
+    this.checkId(id);
+
     const course =await this.courseService.findOne(id);
 
-    return new ApiResponse(200, "courses data fetched", course)
+    return new ApiResponse(200, "course fetched", course)
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
+    // check if Id is valid or not 
+    this.checkId(id);
     
     const course = await this.courseService.update(id, updateCourseDto);
 
-    return new ApiResponse(200, "courses data fetched", course)
+    return new ApiResponse(200, "course updated", course)
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
+    // check if Id is valid or not 
+    this.checkId(id);
 
     const course = await this.courseService.remove(id);
 
-    return new ApiResponse(200, "courses data fetched", course)
+    return new ApiResponse(200, "courses deleted", course)
+  }
+
+  checkId (id:string){
+    const isValid = isValidObjectId(id);
+
+    if(!isValid){
+      throw new BadRequestException(`Id ${id} is not valid Id`);
+    }
   }
 }
